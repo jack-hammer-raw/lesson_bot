@@ -50,16 +50,16 @@ class SQLighter:
             self.cursor.execute(f"INSERT INTO payments VALUES('{date}', {value}, '{comment}')")
 
     def get_cash(self):
-        with self.connection:
-            full_cash = 0
-            for name in students:
+        full_cash = 0
+        for name in students:
+            with self.connection:
                 command = f"SELECT lessons_count, lesson_cost FROM archive WHERE name = '{name}'"
                 all_records = self.cursor.execute(command).fetchall()
                 for i in all_records:
                     full_cash += i[0] * i[1]
-            payments_list, payments_sum = self.get_payments_list()
-            res = '\n'.join(payments_list) + '\n\n' + str(full_cash - payments_sum)
-            return res
+        payments_list, payments_sum = self.get_payments_list()
+        res = '\n'.join(payments_list) + '\n\n' + str(full_cash - payments_sum)
+        return res
 
     def add_row_in_archive(self, name, lessons_count, typing_speed, date='', lesson_cost=ONE_LESSON_COST):
         if not date:
@@ -74,7 +74,7 @@ class SQLighter:
 if __name__ == "__main__":
     db = SQLighter("base.db")
     db.get_cash()
-
+#
 
 
 
