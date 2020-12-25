@@ -62,19 +62,26 @@ def return_button():
 def draw_plots(name):
     db = SQLighter("base.db")
     all_records = db.select_all_from_name(name)
-    y = []
+    y_speed = []
+    y_accuracy = []
     x = []
     for i in all_records:
         if i[-2]:
-            y.append(i[-2])
+            y_speed.append(i[-3])
+            y_accuracy.append(i[-2])
             x.append('.'.join(i[1].split('.')[:2]))
     fig, ax = plt.subplots(facecolor="lightgreen")
-    ax.plot(x, y)
+    ax.plot(x, y_speed, label="Скорость печати")
+    ax.plot(x, y_accuracy, label="Аккуратность")
 
-    plt.title(f"Скорость перчати [{str(y[-1]) if y else 0}]")
+    typing_speed = str(y_speed[-1]) if y_speed else 0
+    typing_accuracy = str(y_accuracy[-1]) if y_accuracy else 0
+
+    plt.title(f"Скорость перчати [{typing_speed}]   Аккуратность [{typing_accuracy}]")
     plt.xlabel("Дата")
     plt.ylabel("Кол-во символов в минуту")
     ax.set_xticklabels(x)
+    plt.legend()
     plt.savefig(f"imgs/{name}_plot")
     plt.clf()
 
@@ -93,6 +100,7 @@ class States:
                         "add_lessons",
                         "add_lessons_count",
                         "add_typing_speed",
+                        "add_typing_accuracy",
                         "new_payment",
                         "payment_comment",
                         ]
@@ -109,12 +117,3 @@ class States:
 
 if __name__ == "__main__":
     pass
-
-#
-
-
-
-
-
-
-

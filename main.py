@@ -53,12 +53,23 @@ def bot_add_lesson_count(msg):
 
 
 @bot.message_handler(func=lambda x: state.state == "add_typing_speed")
-def bot_add_lesson_typing_speed(msg):
+def bot_add_lesson_count(msg):
     _id = msg.chat.id
     if msg.text == "return":
         state.set_state("listening")
         return
     record.append(int(msg.text))  # typing_speed
+    say(_id, "Enter typing accuracy")
+    state.set_state("add_typing_accuracy")
+
+
+@bot.message_handler(func=lambda x: state.state == "add_typing_accuracy")
+def bot_add_lesson_typing_speed(msg):
+    _id = msg.chat.id
+    if msg.text == "return":
+        state.set_state("listening")
+        return
+    record.append(int(msg.text))  # typing_accuracy
     say(_id, "done", reply_markup=get_lessons_info(_id))
     db.add_row_in_archive(*record)
     record.clear()
@@ -131,4 +142,3 @@ if __name__ == "__main__":
     rander_plots()
     print("started")
     bot.polling(none_stop=True)
-#

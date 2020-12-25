@@ -1,6 +1,8 @@
 *.db
+*nfig.py
 /.git
 /.idea
 /__pycache__
 /__pycache__/*
 /env
+/imgs

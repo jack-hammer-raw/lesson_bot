@@ -31,5 +31,3 @@ students = (
     "Artem",
     "Sergey",
 )
-
-#

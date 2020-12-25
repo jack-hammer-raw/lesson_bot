@@ -15,7 +15,7 @@ class SQLighter:
 
     def select_all_from_name(self, name):
         with self.connection:
-            return self.cursor.execute(f"SELECT * FROM archive WHERE name = '{name}'").fetchall()
+            return self.cursor.execute(f"SELECT * FROM records WHERE name = '{name}'").fetchall()
 
     def close(self):
         self.connection.close()
@@ -53,7 +53,7 @@ class SQLighter:
         full_cash = 0
         for name in students:
             with self.connection:
-                command = f"SELECT lessons_count, lesson_cost FROM archive WHERE name = '{name}'"
+                command = f"SELECT lessons_count, lesson_cost FROM records WHERE name = '{name}'"
                 all_records = self.cursor.execute(command).fetchall()
                 for i in all_records:
                     full_cash += i[0] * i[1]
@@ -61,22 +61,15 @@ class SQLighter:
         res = '\n'.join(payments_list) + '\n\n' + f"Текущий баланс   {full_cash - payments_sum}"
         return res
 
-    def add_row_in_archive(self, name, lessons_count, typing_speed, date='', lesson_cost=ONE_LESSON_COST):
+    def add_row_in_archive(self, name, lessons_count, typing_speed, typing_accuracy,
+                           date='', lesson_cost=ONE_LESSON_COST):
         if not date:
             date = datetime.now().date().strftime("%d.%m.%Y")
         with self.connection:
-            self.cursor.execute(f"INSERT INTO archive VALUES('{name}', '{date}', {lessons_count}," +
-                                f"{typing_speed}, {lesson_cost})")
-
-
+            self.cursor.execute(f"INSERT INTO records VALUES('{name}', '{date}', {lessons_count}," +
+                                f"{typing_speed}, {typing_accuracy}, {lesson_cost})")
 
 
 if __name__ == "__main__":
     db = SQLighter("base.db")
     db.get_cash()
-#
-
-
-
-
-
