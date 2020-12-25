@@ -58,7 +58,7 @@ class SQLighter:
                 for i in all_records:
                     full_cash += i[0] * i[1]
         payments_list, payments_sum = self.get_payments_list()
-        res = '\n'.join(payments_list) + '\n\n' + str(full_cash - payments_sum)
+        res = '\n'.join(payments_list) + '\n\n' + f"Текущий баланс - {full_cash - payments_sum}"
         return res
 
     def add_row_in_archive(self, name, lessons_count, typing_speed, date='', lesson_cost=ONE_LESSON_COST):
