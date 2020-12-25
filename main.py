@@ -42,7 +42,7 @@ def bot_add_lesson(msg):
 
 
 @bot.message_handler(func=lambda x: state.state == "add_lessons_count")
-def bot_add_lesson(msg):
+def bot_add_lesson_count(msg):
     _id = msg.chat.id
     if msg.text == "return":
         state.set_state("listening")
@@ -53,7 +53,7 @@ def bot_add_lesson(msg):
 
 
 @bot.message_handler(func=lambda x: state.state == "add_typing_speed")
-def bot_add_lesson(msg):
+def bot_add_lesson_typing_speed(msg):
     _id = msg.chat.id
     if msg.text == "return":
         state.set_state("listening")
@@ -78,7 +78,7 @@ def add_new_payment(msg):
 
 
 @bot.message_handler(func=lambda x: state.state == "payment_comment")
-def add_new_payment(msg):
+def add_new_payment_comment(msg):
     _id = msg.chat.id
     text = msg.text
     if not text == "return":
